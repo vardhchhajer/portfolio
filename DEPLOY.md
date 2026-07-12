@@ -35,12 +35,12 @@ After updating the records, add `vardh.me` and `www.vardh.me` in your **Vercel P
 
 ## 3. Email Routing
 
-Vardh's email is designated as `vardh@vardh.me`. To handle inbound emails:
+Vardh's email is designated as `connect@vardh.me`. To handle inbound emails:
 
 1. Configure an email forwarding service (such as **Cloudflare Email Routing**, **ImprovMX**, or **ForwardEmail**).
 2. Set up MX records pointing to the forwarder at your DNS registrar:
    - For example, if using Cloudflare Email Routing, follow the Cloudflare dashboard guides to auto-inject the routing MX and TXT validation records.
-3. Configure the forwarding destination to redirect incoming `vardh@vardh.me` messages directly to your personal inbox.
+3. Configure the forwarding destination to redirect incoming `connect@vardh.me` messages directly to your personal inbox.
 
 ---
 

@@ -25,12 +25,11 @@ export const profile = {
   skills: {
     Languages: ["Python", "Go", "C++", "JavaScript", "SQL"],
     Frontend: ["HTML5", "CSS3", "JavaScript", "Python Web UIs (Streamlit, Gradio)"],
-    Backend: ["Node.js", "FastAPI", "PostgreSQL", "Redis"],
+    Backend: ["FastAPI", "Flask", "PostgreSQL"],
     "AI / ML": [
       "PyTorch",
       "LangChain",
       "OpenAI",
-      "HuggingFace",
       "RAG Pipelines",
     ],
     DevOps: ["Docker", "AWS", "Vercel", "GitHub Actions"],
@@ -93,8 +92,8 @@ export const projects = [
   {
     title: "AI Virtual Try-On",
     slug: "ai-virtual-try-on",
-    description: "Generates a 6-digit OTP and sends it via Gmail SMTP to secure the backend authorization pipeline of the try-on tool.",
-    techStack: ["Python", "SMTP", "API Auth"],
+    description: "An AI-powered fashion modelling application that allows users to virtually try on apparel assets in real-time.",
+    techStack: ["AI Modelling", "Computer Vision", "Python"],
     status: "live",
     route: "https://github.com/vardhchhajer/ai-virtual-tryon",
   },
@@ -115,11 +114,11 @@ export const projects = [
     route: "https://github.com/vardhchhajer/File-classification",
   },
   {
-    title: "store-py",
-    slug: "store-py",
-    description: "Lightweight utility module to generate Code 128 barcode raster assets and serialize them as BytesIO byte streams.",
-    techStack: ["Python", "Barcode rastering", "Pip package"],
+    title: "hides.app",
+    slug: "hides-app",
+    description: "Secure client-side encrypted file and data sharing platform. Features zero-knowledge architecture, local file encryption, and secure transit.",
+    techStack: ["Cryptography", "File Sharing", "JavaScript"],
     status: "live",
-    route: "https://github.com/vardhchhajer/store-py",
+    route: "https://github.com/vardhchhajer",
   },
 ];

@@ -459,39 +459,29 @@ export function renderRecentCommits(container, events) {
     container.innerHTML = `<div style="color:rgba(252,253,255,0.4);font-size:0.85em;padding:16px;text-align:center">No recent commits found</div>`;
     return;
   }
-
   container.innerHTML = "";
-  container.style.cssText =
-    "display:flex;flex-direction:column;gap:2px;";
+  container.className = "commits__list";
+  container.removeAttribute("style");
 
   recentCommits.forEach((commit) => {
     const row = document.createElement("a");
     row.href = commit.url;
     row.target = "_blank";
     row.rel = "noopener";
-    row.style.cssText = `
-      display:flex;align-items:baseline;gap:12px;
-      padding:10px 14px;border-radius:8px;
-      text-decoration:none;color:inherit;
-      transition:background 0.15s;
-    `;
-    row.addEventListener("mouseenter", () => {
-      row.style.background = "rgba(255,255,255,0.03)";
-    });
-    row.addEventListener("mouseleave", () => {
-      row.style.background = "";
-    });
+    row.className = "commit-item";
 
     const repoName = commit.repo.split("/").pop();
-    const msgTruncated =
-      commit.message.length > 60
-        ? commit.message.slice(0, 57) + "..."
-        : commit.message;
+    const shortSha = commit.sha ? commit.sha.substring(0, 7) : "commit";
 
     row.innerHTML = `
-      <span style="color:#3b9eff;font-size:0.8em;font-weight:600;white-space:nowrap;min-width:100px;font-family:'Geist Mono',monospace">${escapeHTML(repoName)}</span>
-      <span style="color:rgba(252,253,255,0.75);font-size:0.85em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHTML(msgTruncated)}</span>
-      <span style="color:rgba(252,253,255,0.3);font-size:0.75em;white-space:nowrap">${relativeTime(commit.timestamp)}</span>
+      <div class="commit-item__hash">${escapeHTML(shortSha)}</div>
+      <div class="commit-item__body">
+        <div class="commit-item__message">${escapeHTML(commit.message)}</div>
+        <div class="commit-item__meta">
+          <span class="commit-item__repo">${escapeHTML(repoName)}</span>
+          <span class="commit-item__time">${relativeTime(commit.timestamp)}</span>
+        </div>
+      </div>
     `;
 
     container.appendChild(row);
