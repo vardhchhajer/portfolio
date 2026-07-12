@@ -62,6 +62,10 @@ const commands = {
     desc: "Elevate privileges",
     run: cmdSudo,
   },
+  resume: {
+    desc: "Open Vardh's resume",
+    run: cmdResume,
+  },
   clear: {
     desc: "Clear terminal output",
     run: cmdClear,
@@ -235,6 +239,11 @@ function cmdContact() {
 
 function cmdSudo() {
   return `<span style="color:#ff5555">Nice try. Access denied. (403)</span>`;
+}
+
+function cmdResume() {
+  window.open("vardh_resume.pdf", "_blank");
+  return `<div style="color:#11ff99;font-weight:600;margin:4px 0">Opening resume.pdf in a new tab…</div>`;
 }
 
 function cmdClear() {
