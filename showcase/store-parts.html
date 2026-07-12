@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="📦 Store Parts — High-performance parts inventory system. Simulates barcode scanning, local SQLite WASM DB exploration, and TSPL barcode label generation.">
+  <title>Store Parts — Hardware & Inventory Integration | Vardh Chhajer</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/globals.css">
+  <link rel="stylesheet" href="../css/showcase.css">
+  <link rel="stylesheet" href="../css/terminal.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><circle cx=%2250%22 cy=%2250%22 r=%2225%22 fill=%22%233b9eff%22/></svg>">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-void">
+
+  <!-- Showcase Navigation -->
+  <nav class="showcase-nav">
+    <div class="showcase-nav__inner">
+      <a href="../index.html" class="showcase-nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Portfolio</span>
+      </a>
+      <div class="showcase-nav__title">
+        <span>Store Parts Workspace</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="showcase">
+    <div class="showcase__content">
+      <!-- Showcase Page Header -->
+      <header class="showcase-header section">
+        <h1 class="showcase-header__title">Store Parts</h1>
+        <p class="showcase-header__desc">
+          Full-stack manufacturing inventory manager. Perform database operations locally with sql.js WASM, trigger automated scanning threads, and compile barcode labels.
+        </p>
+        <div class="showcase-header__tags">
+          <span class="tag tag--green">sql.js (SQLite WASM)</span>
+          <span class="tag">Plotly.js</span>
+          <span class="tag">Keystroke Telemetry</span>
+          <span class="tag">TSPL Barcodes</span>
+        </div>
+      </header>
+
+      <!-- Tabs Bar -->
+      <div class="tabs">
+        <div class="tabs__list" role="tablist">
+          <button class="tabs__tab is-active" id="tab-scanner" role="tab" aria-selected="true" aria-controls="panel-scanner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <span>Virtual Scanner</span>
+          </button>
+          <button class="tabs__tab" id="tab-sql" role="tab" aria-selected="false" aria-controls="panel-sql">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path></svg>
+            <span>SQL Workspace</span>
+          </button>
+          <button class="tabs__tab" id="tab-label" role="tab" aria-selected="false" aria-controls="panel-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="4"></line><line x1="8" y1="2" x2="8" y2="4"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Label Generator</span>
+          </button>
+          <button class="tabs__tab" id="tab-dashboard" role="tab" aria-selected="false" aria-controls="panel-dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Dashboard metrics</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="section">
+        
+        <!-- SCANNER PANEL -->
+        <div class="tab-panel is-active" id="panel-scanner" role="tabpanel" aria-labelledby="tab-scanner">
+          <div class="split-pane">
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">Scan Telemetry</h3>
+              <p class="text-sm text-muted" style="margin-bottom:var(--space-lg);line-height:1.5">
+                The input below detects rapid barcode scanner input (average &lt; 100ms per character). Paste or type rapidly to trigger automated scan commits, or type normally and click manual Add.
+              </p>
+              
+              <div class="flex flex-col gap-md">
+                <div>
+                  <label for="scanner-input" class="sr-only">Scanner input</label>
+                  <input type="text" id="scanner-input" placeholder="Type rapidly or scan code (e.g. BRG-2205-SS)..." style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-lg);padding:var(--space-md);font-size:var(--text-sm);color:var(--primary);outline:none">
+                </div>
+                
+                <div class="flex items-center gap-xs flex-wrap">
+                  <span class="text-xs text-muted">Scan samples:</span>
+                  <button class="btn btn-xs btn-secondary demo-scan-btn" data-code="BRG-2205-SS">Stainless Bearing</button>
+                  <button class="btn btn-xs btn-secondary demo-scan-btn" data-code="MOT-NEMA17-48">Stepper Motor</button>
+                  <button class="btn btn-xs btn-secondary demo-scan-btn" data-code="SEN-PROX-M12">Prox Sensor</button>
+                </div>
+                
+                <button class="btn btn-primary glow-green" style="width:100%" id="scanner-submit-btn">Add Part (Manual)</button>
+              </div>
+            </div>
+
+            <!-- Scanner Log Feed -->
+            <div class="card">
+              <div class="flex items-center justify-between" style="margin-bottom:var(--space-md)">
+                <h3 class="text-md font-semibold">Incoming Scanner Queue</h3>
+                <span class="tag tag--green">Live Feed</span>
+              </div>
+              
+              <div class="data-table-wrapper" style="max-height:300px;overflow-y:auto">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Part Number</th>
+                      <th>Qty Change</th>
+                      <th>Method</th>
+                    </tr>
+                  </thead>
+                  <tbody id="scanner-log-body">
+                    <tr>
+                      <td colspan="4" style="text-align:center;color:var(--muted)">No scanner input logged...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SQL EXPLORER PANEL -->
+        <div class="tab-panel" id="panel-sql" role="tabpanel" aria-labelledby="tab-sql">
+          <div class="split-pane split-pane--wide-right">
+            <div class="flex flex-col gap-lg">
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">Database Explorer</h3>
+                <p class="text-sm text-muted" style="margin-bottom:var(--space-lg);line-height:1.5">
+                  Explore the schema and rows. The client-side database is compiled in a Web Worker to isolate execution loads.
+                </p>
+                
+                <!-- Query presets -->
+                <div class="flex flex-col gap-sm">
+                  <span class="text-xs font-mono text-muted uppercase tracking-wider">Example queries</span>
+                  <button class="btn btn-xs btn-secondary sql-preset-btn" style="justify-content:flex-start" data-query="SELECT * FROM parts LIMIT 10;">Select top 10 parts</button>
+                  <button class="btn btn-xs btn-secondary sql-preset-btn" style="justify-content:flex-start" data-query="SELECT * FROM machines;">Select all machines</button>
+                  <button class="btn btn-xs btn-secondary sql-preset-btn" style="justify-content:flex-start" data-query="SELECT p.part_number, p.description, p.quantity, m.name AS machine_name FROM parts p LEFT JOIN machines m ON p.machine_id = m.id WHERE p.quantity < p.min_quantity;">List parts below min quantity</button>
+                  <button class="btn btn-xs btn-secondary sql-preset-btn" style="justify-content:flex-start" data-query="SELECT category, SUM(quantity) AS total_parts FROM parts GROUP BY category ORDER BY total_parts DESC;">Get totals grouped by category</button>
+                </div>
+                
+                <button class="btn btn-secondary" style="width:100%;margin-top:var(--space-md)" id="sql-reset-btn">Reset Database Seed</button>
+              </div>
+            </div>
+            
+            <div class="flex flex-col gap-lg">
+              <!-- Workspace editor -->
+              <div class="code-container">
+                <div class="code-container__header">
+                  <div class="code-container__filename">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>query.sql</span>
+                  </div>
+                  <button class="btn btn-xs btn-primary glow-green" id="sql-run-btn">Run SQL Query</button>
+                </div>
+                
+                <div class="code-container__body" style="padding:0">
+                  <textarea id="sql-query-editor" class="font-mono text-xs" style="width:100%;height:150px;background:#050507;border:none;padding:var(--space-md);color:#fcfdff;outline:none;resize:none;line-height:1.6">SELECT * FROM parts LIMIT 10;</textarea>
+                </div>
+              </div>
+              
+              <!-- Result table container -->
+              <div class="data-table-wrapper" style="min-height:220px;overflow-x:auto" id="sql-results-container">
+                <div class="flex items-center justify-center text-muted text-sm" style="height:220px" id="sql-status-text">
+                  Run a query to display results...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LABEL GENERATOR PANEL -->
+        <div class="tab-panel" id="panel-label" role="tabpanel" aria-labelledby="tab-label">
+          <div class="split-pane">
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md)">Label Specifications</h3>
+              
+              <div class="flex flex-col gap-md">
+                <div>
+                  <label for="label-part-num" class="text-xs text-muted font-mono uppercase">Part Number</label>
+                  <input type="text" id="label-part-num" value="BRG-2205-SS" class="font-mono" style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-sm);color:var(--primary);outline:none;margin-top:4px">
+                </div>
+                <div>
+                  <label for="label-desc" class="text-xs text-muted font-mono uppercase">Description</label>
+                  <input type="text" id="label-desc" value="2205 Stainless Steel Bearing" style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-sm);color:var(--primary);outline:none;margin-top:4px">
+                </div>
+                <div>
+                  <label for="label-qty" class="text-xs text-muted font-mono uppercase">Batch Quantity</label>
+                  <input type="number" id="label-qty" value="24" style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-sm);color:var(--primary);outline:none;margin-top:4px">
+                </div>
+                
+                <button class="btn btn-primary glow-green" style="width:100%" id="label-generate-btn">Generate TSPL Layout</button>
+                <button class="btn btn-secondary" style="width:100%" id="label-print-btn">Print Label (OS Dialog)</button>
+              </div>
+            </div>
+
+            <!-- Canvas view -->
+            <div class="card flex flex-col items-center justify-center" style="min-height:300px;background:#050507">
+              <span class="text-xs text-muted font-mono uppercase" style="margin-bottom:var(--space-md)">3-Across 25x17mm Thermal Layout</span>
+              
+              <div style="background:#ffffff;padding:24px;border-radius:var(--radius-md);box-shadow:var(--shadow-lg)" id="canvas-print-wrapper">
+                <canvas id="label-canvas" width="450" height="150" style="background:#ffffff"></canvas>
+              </div>
+              
+              <div class="text-xs text-muted font-mono" style="margin-top:var(--space-md);text-align:center;line-height:1.4">
+                Resolves Code 39 bars. Prints directly on physical media<br>
+                via browser raster drivers on click.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DASHBOARD PANEL -->
+        <div class="tab-panel" id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+          <div class="flex flex-col gap-lg">
+            <div class="grid" style="display:grid;grid-template-columns:1.5fr 1fr;gap:var(--space-lg)" id="dashboard-grid-row">
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md)">Inventory Level Metrics</h3>
+                <div id="chart-levels" style="min-height:300px">
+                  <div class="flex items-center justify-center text-muted" style="height:300px">Loading Plotly charts...</div>
+                </div>
+              </div>
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md)">Critical Low Stock Levels</h3>
+                <div id="chart-lowstock" style="min-height:300px">
+                  <div class="flex items-center justify-center text-muted" style="height:300px">Loading Plotly charts...</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md)">Parts Distribution by Machine Assignments</h3>
+              <div id="chart-distribution" style="min-height:280px">
+                <div class="flex items-center justify-center text-muted" style="height:280px">Loading Plotly charts...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Terminal Overlay -->
+  <div id="terminal-overlay" class="terminal-overlay hidden" role="dialog" aria-label="Terminal"></div>
+  <button id="terminal-fab" class="terminal-fab" aria-label="Open terminal" data-terminal-trigger>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--accent-green)"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+  </button>
+
+  <!-- External CDNs for heavy libraries -->
+  <script src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
+
+  <!-- Core Scripts -->
+  <script type="module" src="../js/store-parts.js"></script>
+</body>
+</html>

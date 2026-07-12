@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="🔐 Hides — Client-side AES-GCM 256-bit encryption with real-time Shannon entropy analysis. Zero-knowledge file privacy in the browser.">
+  <title>Hides — Zero-Knowledge Encrypted Workspace | Vardh Chhajer</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/globals.css">
+  <link rel="stylesheet" href="../css/showcase.css">
+  <link rel="stylesheet" href="../css/terminal.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><circle cx=%2250%22 cy=%2250%22 r=%2225%22 fill=%22%2311ff99%22/></svg>">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-void">
+
+  <!-- Showcase Navigation -->
+  <nav class="showcase-nav">
+    <div class="showcase-nav__inner">
+      <a href="../index.html" class="showcase-nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Portfolio</span>
+      </a>
+      <div class="showcase-nav__title">
+        <span>Hides Workspace</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="showcase">
+    <div class="showcase__content">
+      <!-- Showcase Page Header -->
+      <header class="showcase-header section">
+        <h1 class="showcase-header__title">Hides</h1>
+        <p class="showcase-header__desc">
+          Zero-knowledge client-side encryption simulator. Secure your files in the browser using industry-standard 256-bit AES-GCM before uploading or sharing.
+        </p>
+        <div class="showcase-header__tags">
+          <span class="tag tag--green">Web Crypto API</span>
+          <span class="tag">AES-GCM</span>
+          <span class="tag">Zero-Knowledge</span>
+          <span class="tag">Shannon Entropy</span>
+        </div>
+      </header>
+
+      <!-- Tabs Bar -->
+      <div class="tabs">
+        <div class="tabs__list" role="tablist">
+          <button class="tabs__tab is-active" id="tab-encrypt" role="tab" aria-selected="true" aria-controls="panel-encrypt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Encrypt File</span>
+          </button>
+          <button class="tabs__tab" id="tab-decrypt" role="tab" aria-selected="false" aria-controls="panel-decrypt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+            <span>Decrypt & Retrieve</span>
+          </button>
+          <button class="tabs__tab" id="tab-specs" role="tab" aria-selected="false" aria-controls="panel-specs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Security Specs</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="section">
+        
+        <!-- ENCRYPT PANEL -->
+        <div class="tab-panel is-active" id="panel-encrypt" role="tabpanel" aria-labelledby="tab-encrypt">
+          <div class="split-pane">
+            <div class="flex flex-col gap-lg">
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">File Selection</h3>
+                <div class="drop-zone" id="encrypt-dropzone">
+                  <svg class="drop-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <div class="drop-zone__label">Drag & drop files here or <strong>browse local drive</strong></div>
+                  <div class="drop-zone__hint">Max file size: 5MB for simulation</div>
+                  <input type="file" id="encrypt-file-input" style="display:none">
+                </div>
+                
+                <div id="file-info-container" class="hidden" style="margin-top:var(--space-md);padding-top:var(--space-md);border-top:1px solid var(--border)">
+                  <div class="flex items-center justify-between" style="margin-bottom:var(--space-sm)">
+                    <div>
+                      <div class="font-semibold text-sm" id="selected-file-name">document.pdf</div>
+                      <div class="text-xs text-muted" id="selected-file-size">145 KB · PDF Document</div>
+                    </div>
+                    <button class="btn btn-sm btn-ghost" id="remove-file-btn">Remove</button>
+                  </div>
+                  <button class="btn btn-primary glow-green" style="width:100%" id="encrypt-submit-btn">Encrypt Work</button>
+                </div>
+              </div>
+              
+              <!-- Entropy Analytics Card -->
+              <div class="card">
+                <div class="flex items-center justify-between" style="margin-bottom:var(--space-md)">
+                  <h3 class="text-md font-semibold">Shannon Entropy Telemetry</h3>
+                  <span class="tag tag--green" id="entropy-badge">Idle</span>
+                </div>
+                <p class="text-xs text-muted" style="margin-bottom:var(--space-lg);line-height:1.5">
+                  Entropy measures randomness in bits per byte. Normal files range from 3-6. Fully encrypted outputs read as perfectly uniform random strings (~8.0 bits/byte).
+                </p>
+                
+                <div class="flex flex-col gap-lg">
+                  <!-- Plaintext gauge -->
+                  <div class="progress">
+                    <div class="progress__label">
+                      <span class="progress__label-text">Plaintext Entropy</span>
+                      <span class="progress__label-value" id="plaintext-entropy-val">0.00 bits</span>
+                    </div>
+                    <div class="progress__track">
+                      <div class="progress__fill" id="plaintext-entropy-bar" style="width:0%"></div>
+                    </div>
+                    <span class="text-xs text-muted" id="plaintext-entropy-label">No file analyzed</span>
+                  </div>
+                  
+                  <!-- Ciphertext gauge -->
+                  <div class="progress">
+                    <div class="progress__label">
+                      <span class="progress__label-text">Ciphertext Entropy</span>
+                      <span class="progress__label-value" id="ciphertext-entropy-val">0.00 bits</span>
+                    </div>
+                    <div class="progress__track">
+                      <div class="progress__fill" id="ciphertext-entropy-bar" style="width:0%"></div>
+                    </div>
+                    <span class="text-xs text-muted" id="ciphertext-entropy-label">No encryption run</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Hex Preview / Output Column -->
+            <div class="flex flex-col gap-lg">
+              <div class="card" id="encryption-progress-card" style="display:none">
+                <div class="progress">
+                  <div class="progress__label">
+                    <span class="progress__label-text">Processing Chunks...</span>
+                    <span class="progress__label-value" id="encrypt-progress-pct">0%</span>
+                  </div>
+                  <div class="progress__track">
+                    <div class="progress__fill" id="encrypt-progress-bar" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-container" style="min-height:300px">
+                <div class="code-container__header">
+                  <div class="code-container__filename">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    <span>Plaintext Hex Dump</span>
+                  </div>
+                </div>
+                <div class="code-container__body" style="background-color:#050507;max-height:220px;overflow-y:auto">
+                  <pre><code id="plaintext-hex" class="font-mono text-muted text-xs">Drop a file to view hexadecimal structure...</code></pre>
+                </div>
+              </div>
+
+              <div class="code-container" style="min-height:300px">
+                <div class="code-container__header">
+                  <div class="code-container__filename">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>Ciphertext Hex Dump</span>
+                  </div>
+                </div>
+                <div class="code-container__body" style="background-color:#050507;max-height:220px;overflow-y:auto">
+                  <pre><code id="ciphertext-hex" class="font-mono text-muted text-xs">Run encryption to generate random bytes...</code></pre>
+                </div>
+              </div>
+
+              <!-- Share Token Display -->
+              <div class="card hidden" id="token-card" style="border-color:rgba(17,255,153,0.25)">
+                <h4 class="font-semibold text-primary" style="font-size:var(--text-sm);margin-bottom:var(--space-xs)">Encryption Token Generated</h4>
+                <p class="text-xs text-muted" style="margin-bottom:var(--space-md);line-height:1.4">
+                  Copy this token. It encodes the AES-256 key, IV, and ciphertext payload. The page will not persist this data.
+                </p>
+                <div class="flex gap-sm">
+                  <input type="text" id="share-token-input" readonly class="font-mono" style="flex:1;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-xs);color:var(--accent-green)">
+                  <button class="btn btn-sm btn-primary" id="copy-token-btn">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DECRYPT PANEL -->
+        <div class="tab-panel" id="panel-decrypt" role="tabpanel" aria-labelledby="tab-decrypt">
+          <div class="split-pane">
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md)">Decrypt Workspace</h3>
+              <p class="text-sm text-muted" style="margin-bottom:var(--space-lg);line-height:1.5">
+                Paste a token generated from the Encrypt tab or test the pipeline with one of the pre-encoded simulation payloads.
+              </p>
+              
+              <div class="flex flex-col gap-md">
+                <textarea id="decrypt-token-input" placeholder="Paste base64 share token here..." class="font-mono" style="width:100%;height:140px;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-lg);padding:var(--space-md);font-size:var(--text-xs);color:var(--body);outline:none;resize:none;line-height:1.6"></textarea>
+                
+                <div class="flex items-center gap-xs flex-wrap">
+                  <span class="text-xs text-muted">Test Payload:</span>
+                  <button class="btn btn-xs btn-secondary" id="demo-payload-1">Demo Text</button>
+                  <button class="btn btn-xs btn-secondary" id="demo-payload-2">Demo JSON</button>
+                </div>
+                
+                <button class="btn btn-primary glow-green" style="width:100%" id="decrypt-submit-btn">Decrypt Payload</button>
+              </div>
+            </div>
+
+            <!-- Decrypt Results / Download -->
+            <div class="flex flex-col gap-lg">
+              <div class="card" id="decryption-progress-card" style="display:none">
+                <div class="progress">
+                  <div class="progress__label">
+                    <span class="progress__label-text">Decrypting Payloads...</span>
+                    <span class="progress__label-value" id="decrypt-progress-pct">0%</span>
+                  </div>
+                  <div class="progress__track">
+                    <div class="progress__fill" id="decrypt-progress-bar" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Decrypted Preview Panel -->
+              <div class="code-container" style="min-height:300px">
+                <div class="code-container__header">
+                  <div class="code-container__filename">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Decrypted File Preview</span>
+                  </div>
+                  <button class="btn btn-xs btn-primary hidden" id="download-file-btn">Download File</button>
+                </div>
+                <div class="code-container__body" style="background-color:#050507;min-height:220px">
+                  <pre><code id="decrypted-preview" class="font-mono text-muted text-xs">Waiting for key injection and ciphertext decryption...</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPEC PANEL -->
+        <div class="tab-panel" id="panel-specs" role="tabpanel" aria-labelledby="tab-specs">
+          <div class="card" style="max-width:800px;margin:0 auto">
+            <h3 class="text-md font-semibold" style="margin-bottom:var(--space-md);color:var(--accent-green)">Cryptographic Specifications</h3>
+            
+            <div class="flex flex-col gap-lg" style="margin-top:var(--space-lg);line-height:1.6">
+              <div>
+                <h4 class="font-semibold text-primary" style="font-size:var(--text-sm);margin-bottom:var(--space-2xs)">1. Symmetric Architecture</h4>
+                <p class="text-sm text-muted">
+                  Hides uses the <strong>AES-GCM (Galois/Counter Mode)</strong> cipher with a 256-bit key size. This symmetric cipher provides both confidentiality and authenticated data integrity. The encryption process uses the client-side <code>SubtleCrypto</code> API, executing isolated in-browser threads.
+                </p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold text-primary" style="font-size:var(--text-sm);margin-bottom:var(--space-2xs)">2. IV (Initialization Vector) Isolation</h4>
+                <p class="text-sm text-muted">
+                  A fresh, cryptographically secure 12-byte (96-bit) Initialization Vector (IV) is generated via <code>crypto.getRandomValues()</code> for <strong>every single encryption operation</strong>. Under no circumstances is an IV ever reused with the same key, preventing ciphertext correlation or XOR-based cipher compromises.
+                </p>
+              </div>
+
+              <div>
+                <h4 class="font-semibold text-primary" style="font-size:var(--text-sm);margin-bottom:var(--space-2xs)">3. Share Token Encoding</h4>
+                <p class="text-sm text-muted">
+                  The generated base64 token is a packed binary sequence constructed as follows:
+                </p>
+                <pre class="font-mono text-xs text-accent-blue" style="background:#050507;padding:var(--space-sm);border-radius:var(--radius-md);margin-top:var(--space-xs)">
+[1-byte Key Length] [32-byte Raw Key] [12-byte IV] [Ciphertext Byte Stream]</pre>
+                <p class="text-sm text-muted" style="margin-top:var(--space-xs)">
+                  Since the entire token is processed locally, the keys never traverse the network. Your data remains strictly zero-knowledge.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Terminal Overlay -->
+  <div id="terminal-overlay" class="terminal-overlay hidden" role="dialog" aria-label="Terminal"></div>
+  <button id="terminal-fab" class="terminal-fab" aria-label="Open terminal" data-terminal-trigger>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--accent-green)"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+  </button>
+
+  <!-- Core Scripts -->
+  <script type="module" src="../js/hides.js"></script>
+</body>
+</html>

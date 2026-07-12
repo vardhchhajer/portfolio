@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="🤖 Autogit — AI-powered repository documentation pipeline. Inspect file trees, generate markdowns, and compile semantic commit messages from code diffs.">
+  <title>Autogit — Repository Analytics & AI Documentation | Vardh Chhajer</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/globals.css">
+  <link rel="stylesheet" href="../css/showcase.css">
+  <link rel="stylesheet" href="../css/terminal.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><circle cx=%2250%22 cy=%2250%22 r=%2225%22 fill=%22%2311ff99%22/></svg>">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-void">
+
+  <!-- Showcase Navigation -->
+  <nav class="showcase-nav">
+    <div class="showcase-nav__inner">
+      <a href="../index.html" class="showcase-nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Portfolio</span>
+      </a>
+      <div class="showcase-nav__title">
+        <span>Autogit Workspace</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="showcase">
+    <div class="showcase__content">
+      <!-- Showcase Page Header -->
+      <header class="showcase-header section">
+        <h1 class="showcase-header__title">Autogit</h1>
+        <p class="showcase-header__desc">
+          AI-driven documentation orchestrator. Analyze public repositories dynamically, construct formatted folder structures, and generate commit documentation payloads.
+        </p>
+        <div class="showcase-header__tags">
+          <span class="tag tag--green">GitHub API v3</span>
+          <span class="tag">OpenAI Integration</span>
+          <span class="tag">Git Diff Parser</span>
+          <span class="tag">Tree Serialization</span>
+        </div>
+      </header>
+
+      <!-- Tabs Bar -->
+      <div class="tabs">
+        <div class="tabs__list" role="tablist">
+          <button class="tabs__tab is-active" id="tab-analyzer" role="tab" aria-selected="true" aria-controls="panel-analyzer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+            <span>Repo Analyzer</span>
+          </button>
+          <button class="tabs__tab" id="tab-readme" role="tab" aria-selected="false" aria-controls="panel-readme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>README Generator</span>
+          </button>
+          <button class="tabs__tab" id="tab-commits" role="tab" aria-selected="false" aria-controls="panel-commits">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><line x1="6" y1="9" x2="6" y2="21"></line><path d="M9 18h9"></path></svg>
+            <span>Commit Message</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="section">
+        
+        <!-- ANALYZER PANEL -->
+        <div class="tab-panel is-active" id="panel-analyzer" role="tabpanel" aria-labelledby="tab-analyzer">
+          <div class="split-pane split-pane--sidebar">
+            <!-- Sidebar controls -->
+            <div class="flex flex-col gap-lg">
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">Repository URL</h3>
+                <p class="text-xs text-muted" style="margin-bottom:var(--space-md)">
+                  Paste the link to any public GitHub repository to examine its file layout and structure.
+                </p>
+                <div class="flex flex-col gap-md">
+                  <input type="text" id="repo-url-input" value="https://github.com/VardhChhajer/portfolio" placeholder="https://github.com/user/repo" style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-xs);color:var(--primary);outline:none">
+                  <button class="btn btn-primary glow-green" id="repo-analyze-btn">Analyze Repo</button>
+                </div>
+              </div>
+
+              <!-- Options: API key input -->
+              <div class="card">
+                <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">OpenAI API Credentials</h3>
+                <p class="text-xs text-muted" style="margin-bottom:var(--space-md);line-height:1.4">
+                  Provide an API key to enable live streaming generations. If left blank, simulation payloads will be served. Stored strictly in local memory.
+                </p>
+                <input type="password" id="openai-key-input" placeholder="sk-proj-..." style="width:100%;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-md);padding:var(--space-xs) var(--space-sm);font-size:var(--text-xs);color:var(--primary);outline:none">
+              </div>
+            </div>
+
+            <!-- Main view container (File Tree) -->
+            <div class="flex flex-col gap-lg">
+              <div id="analyzer-status-card" class="card hidden" style="border-color:rgba(59,158,255,0.15)">
+                <div class="flex items-center gap-md">
+                  <div class="animate-spin" style="width:16px;height:16px;border:2px solid rgba(59,158,255,0.2);border-top-color:var(--accent-blue);border-radius:50%"></div>
+                  <span class="text-sm font-semibold" id="analyzer-status-text">Fetching repo metadata...</span>
+                </div>
+              </div>
+
+              <div id="tree-container" class="file-tree" style="min-height:300px">
+                <div class="file-tree__header">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                  <span id="repo-tree-header">File Structure</span>
+                </div>
+                
+                <div class="flex items-center justify-center text-muted text-sm" style="height:250px" id="tree-status-text">
+                  Analyze a repository to populate files...
+                </div>
+                <div id="file-tree-root" class="file-tree__list hidden"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- README GENERATOR PANEL -->
+        <div class="tab-panel" id="panel-readme" role="tabpanel" aria-labelledby="tab-readme">
+          <div class="split-pane split-pane--sidebar">
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">README Builder</h3>
+              <p class="text-sm text-muted" style="margin-bottom:var(--space-md);line-height:1.4">
+                Generates a standardized README.md outlining technologies, dependencies, and file systems based on the analyzed repository.
+              </p>
+              <button class="btn btn-primary glow-green" style="width:100%" id="readme-generate-btn">Generate README</button>
+            </div>
+            
+            <div class="code-container" style="min-height:400px">
+              <div class="code-container__header">
+                <div class="code-container__filename">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>README.md</span>
+                </div>
+                <button class="btn btn-xs btn-primary hidden" id="readme-copy-btn">Copy Markdown</button>
+              </div>
+              <div class="code-container__body" style="background-color:#050507;min-height:340px" id="readme-output-container">
+                <pre><code id="readme-output-text" class="font-mono text-muted text-xs" style="white-space:pre-wrap">Waiting for repository analysis...</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMIT MESSAGE PANEL -->
+        <div class="tab-panel" id="panel-commits" role="tabpanel" aria-labelledby="tab-commits">
+          <div class="split-pane">
+            <div class="card">
+              <h3 class="text-md font-semibold" style="margin-bottom:var(--space-sm)">Semantic Commit Maker</h3>
+              <p class="text-sm text-muted" style="margin-bottom:var(--space-lg);line-height:1.4">
+                Parse a code diff payload to generate standard conventional commit summaries matching specific patterns (e.g. <code>feat(scope): message</code>).
+              </p>
+              
+              <div class="flex flex-col gap-md">
+                <textarea id="diff-input-text" placeholder="Paste your git diff results here... (e.g. - old_code() + new_code())" class="font-mono" style="width:100%;height:180px;background:#050507;border:1px solid #1a1a1e;border-radius:var(--radius-lg);padding:var(--space-md);font-size:var(--text-xs);color:var(--body);outline:none;resize:none;line-height:1.6"></textarea>
+                
+                <div class="flex items-center gap-xs flex-wrap">
+                  <span class="text-xs text-muted">Demo Diffs:</span>
+                  <button class="btn btn-xs btn-secondary" id="demo-diff-1">feat: Analytics</button>
+                  <button class="btn btn-xs btn-secondary" id="demo-diff-2">fix: Memory Leak</button>
+                </div>
+                
+                <button class="btn btn-primary glow-green" style="width:100%" id="commit-generate-btn">Generate Commit Message</button>
+              </div>
+            </div>
+
+            <!-- Output message view -->
+            <div class="flex flex-col gap-lg">
+              <div class="code-container" style="min-height:300px">
+                <div class="code-container__header">
+                  <div class="code-container__filename">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><line x1="6" y1="9" x2="6" y2="21"></line><path d="M9 18h9"></path></svg>
+                    <span>Conventional Commit Message</span>
+                  </div>
+                  <button class="btn btn-xs btn-primary hidden" id="commit-copy-btn">Copy Message</button>
+                </div>
+                <div class="code-container__body" style="background-color:#050507;min-height:220px" id="commit-output-container">
+                  <pre><code id="commit-output-text" class="font-mono text-muted text-xs" style="white-space:pre-wrap">Inject a diff chunk and execute builder to generate conventional descriptions...</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Terminal Overlay -->
+  <div id="terminal-overlay" class="terminal-overlay hidden" role="dialog" aria-label="Terminal"></div>
+  <button id="terminal-fab" class="terminal-fab" aria-label="Open terminal" data-terminal-trigger>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--accent-green)"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+  </button>
+
+  <!-- Core Scripts -->
+  <script type="module" src="../js/autogit.js"></script>
+</body>
+</html>
