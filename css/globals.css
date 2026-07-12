@@ -392,6 +392,7 @@ p {
   border: 1px solid rgba(17, 255, 153, 0.15);
   border-radius: var(--radius-full);
   letter-spacing: var(--tracking-wide);
+  line-height: 1.4;
 }
 
 .status-badge::before {
@@ -705,5 +706,19 @@ p {
   .btn-lg {
     padding: var(--space-sm) var(--space-xl);
     font-size: var(--text-sm);
+  }
+
+  .status-badge {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: left;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 12px;
+  }
+
+  .status-badge::before {
+    margin-top: 5px;
   }
 }
