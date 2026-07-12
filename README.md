@@ -32,6 +32,22 @@ The site is built with a premium dark aesthetic, featuring modular vanilla CSS, 
 
 ---
 
+## Behind the Build
+
+This portfolio was built with a clear performance objective: create an engaging, highly interactive developer workspace with zero framework bloat. 
+
+### Design Co-Pilot
+The visual layout and theme were conceived using generative AI as a design partner. I collaborated with AI to sketch the premium dark aesthetic, outline custom color systems (like the HSL atmospheric green/blue glows), and calibrate the glassmorphism parameters for the Bento grids. 
+
+### Core Engineering & Logic
+While AI served as a styling and design guide, the entire codebase, systems integration, and program logic were fully built and wired by hand:
+*   **Modular Architecture**: Designed from scratch using native ES6 module structures (`main.js`, `terminal.js`, `github.js`, `content.js`) to guarantee strict encapsulation and lightning-fast load times.
+*   **Terminal REPL**: Built the input key event handlers, command execution parser, history stack, and custom CSS viewport bindings in vanilla JavaScript.
+*   **GitHub Telemetry Engine**: Coded the direct API payload fetch parser, localStorage caching mechanics, and created the logic to parse event telemetry (handling fallback push structures for headless commits) so the feed updates in real-time.
+*   **Showcase Implementations**: Hand-coded the mathematical formulas for Shannon entropy calculations, configured the browser Web Crypto API pipelines for hides.app, and wrote the timing-interval heuristics that distinguish physical barcode hardware inputs from human typing.
+
+---
+
 ## Directory Structure
 
 ```text
