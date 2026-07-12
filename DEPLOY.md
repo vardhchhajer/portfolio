@@ -20,27 +20,27 @@ The portfolio is optimized for deployment to **Vercel** as a static project.
 
 ---
 
-## 2. Custom Domain Configuration (`vardh.dev`)
+## 2. Custom Domain Configuration (`vardh.me`)
 
-To connect your custom domain `vardh.dev`, configure the following DNS records at your registrar or DNS provider (e.g., Namecheap, Cloudflare, Google Domains):
+To connect your custom domain `vardh.me`, configure the following DNS records at your registrar or DNS provider (e.g., Namecheap, Cloudflare, Google Domains):
 
 | Type | Name | Value | TTL | Purpose |
 |---|---|---|---|---|
-| **A** | `@` | `76.76.21.21` | Auto / 1 Hour | Points root domain (`vardh.dev`) to Vercel's edge network |
-| **CNAME** | `www` | `cname.vercel-dns.com.` | Auto / 1 Hour | Points subdomain (`www.vardh.dev`) to Vercel |
+| **A** | `@` | `76.76.21.21` | Auto / 1 Hour | Points root domain (`vardh.me`) to Vercel's edge network |
+| **CNAME** | `www` | `cname.vercel-dns.com.` | Auto / 1 Hour | Points subdomain (`www.vardh.me`) to Vercel |
 
-After updating the records, add `vardh.dev` and `www.vardh.dev` in your **Vercel Project Settings → Domains** dashboard. Vercel will automatically provision SSL certificates.
+After updating the records, add `vardh.me` and `www.vardh.me` in your **Vercel Project Settings → Domains** dashboard. Vercel will automatically provision SSL certificates.
 
 ---
 
 ## 3. Email Routing
 
-Vardh's email is designated as `vardh@vardh.dev`. To handle inbound emails:
+Vardh's email is designated as `vardh@vardh.me`. To handle inbound emails:
 
 1. Configure an email forwarding service (such as **Cloudflare Email Routing**, **ImprovMX**, or **ForwardEmail**).
 2. Set up MX records pointing to the forwarder at your DNS registrar:
    - For example, if using Cloudflare Email Routing, follow the Cloudflare dashboard guides to auto-inject the routing MX and TXT validation records.
-3. Configure the forwarding destination to redirect incoming `vardh@vardh.dev` messages directly to your personal inbox.
+3. Configure the forwarding destination to redirect incoming `vardh@vardh.me` messages directly to your personal inbox.
 
 ---
 

@@ -45,7 +45,7 @@ export const profile = {
   socials: {
     github: "https://github.com/VardhChhajer",
     linkedin: "https://linkedin.com/in/vardh-chhajer",
-    email: "vardh@vardh.dev",
+    email: "vardh@vardh.me",
   },
 };
 
