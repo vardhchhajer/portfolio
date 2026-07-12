@@ -1,42 +1,86 @@
-# Portfolio
+# Vardh Chhajer — Developer Portfolio (vardh.me)
 
-Portfolio is a modular web-based utility suite designed to showcase technical projects and provide advanced data analysis tools. It integrates a command-line style terminal interface, GitHub activity visualization, and cryptographic analysis utilities into a single, cohesive developer-focused experience.
+This repository contains the source code for my developer portfolio, hosted live at [vardh.me](https://vardh.me).
 
-### Features
+The site is built with a premium dark aesthetic, featuring modular vanilla CSS, native JavaScript ES6 modules, and an interactive browser-based terminal. It is optimized for zero-dependency loading, responsive layouts across devices, and real-time developer telemetry.
 
-*   **Terminal Interface (`terminal.js`):** A global, lazy-loaded command-line overlay that supports keyboard shortcuts and DOM-based triggers.
-*   **GitHub Integration (`github.js`):** Dynamically renders contribution heatmaps, repository statistics (language distribution, star counts), and recent commit logs using data-attribute targeting.
-*   **Cryptographic Toolkit (`crypto.js`):** Provides AES-256-GCM encryption/decryption workflows, including shareable token generation via Base64 encoding/decoding.
-*   **Entropy Analysis (`entropy.js`):** Implements Shannon Entropy calculations to evaluate data randomness, identifying structured vs. encrypted/compressed byte patterns.
-*   **Input Scanner (`scanner.js`):** A heuristic-based input scanner that distinguishes between manual entry and high-speed hardware barcode/RFID scanning by analyzing keystroke interval timing.
-*   **Hex/ASCII Inspector (`bytesToHex`):** Generates formatted memory dumps with side-by-side hexadecimal and ASCII representations.
+---
 
-### Tech Stack
+## Key Features
 
-*   **JavaScript (ES Modules):** The core logic is built using native ES6 module imports.
-*   **Web Crypto API:** Utilizes `crypto.subtle` for hardware-accelerated AES-GCM operations.
+### 1. Interactive Terminal Overlay
+*   **Access**: Press `Ctrl + K` or click the "Open Terminal" button on the homepage. Press `Esc` to close.
+*   **REPL Commands**: Features a custom-built command-line interpreter with history parsing and auto-scrolling. Supported commands:
+    *   `help`: Lists all available terminal options.
+    *   `about`: High-level summary of my background.
+    *   `skills`: Interactive breakdown of my programming stack.
+    *   `projects`: Summarized listings of featured builds.
+    *   `github`: Fetches real-time cache details from the GitHub telemetry provider.
+    *   `contact`: Outputs my social links and direct mail routing.
+    *   `resume`: Opens `vardh_resume.pdf` in a new tab.
+    *   `clear`: Resets the terminal screen history.
 
-### Installation
+### 2. GitHub Activity Telemetry
+*   **Dynamic Data Feeding**: Interchanges live API payloads from `api.github.com/users/VardhChhajer` to populate stars, public repository counts, and top languages.
+*   **SVG Contribution Heatmap**: Renders an SVG grid representing my public repository commits, wrapped in a mobile-optimized touch-scrolling container.
+*   **Commit Log Feed**: Parses recent public commits (featuring event telemetry fallbacks for headless pushes) and displays them as a stacked list on mobile and a row list on desktop.
 
-This project is a client-side JavaScript module library. No build system or package manager is required. 
+### 3. Integrated Project Showcases
+*   **hides.app**: A secure client-side zero-knowledge encryption application utilizing the Web Crypto API for hardware-accelerated AES-GCM operations, including Shannon entropy analysis (measuring information density to detect encrypted vs. plain structured data).
+*   **Store Parts**: A simulated inventory dashboard featuring in-browser SQL queries (via sql.js), barcode rendering, and a heuristic scanner script that differentiates hardware scanner inputs from manual keyboard typing based on keystroke interval time.
+*   **AutoGit**: A developer helper tool mock-up for structural codebase auditing.
 
-1. Clone the repository.
-2. Serve the files using any static web server (e.g., `npx serve` or Python's `http.server`).
-3. Ensure your HTML includes the `js/main.js` script with `type="module"`.
+---
 
-### Usage
+## Directory Structure
 
-1.  **Terminal:** Ensure your HTML elements have the `data-terminal-trigger` attribute to open the terminal overlay upon clicking.
-2.  **GitHub Stats:** Add elements with `data-github-heatmap`, `data-github-stats`, or `data-github-commits` to your page; the `initGitHub()` function will automatically detect these and populate them with data.
-3.  **Crypto/Entropy:** Import `generateKey`, `encryptChunk`, or `shannonEntropy` from their respective modules to perform data analysis or secure sensitive strings.
-4.  **Scanner:** Initialize the scanner by passing an input element and callback functions (`onScan`, `onManualAdd`) to `initScanner()`.
+```text
+portfolio/
+├── css/
+│   ├── globals.css      # Custom design tokens, base layouts, utility rules
+│   ├── components.css   # Hero, About, Bento grid cards, footer styling
+│   ├── github.css       # Contribution heatmap and commit telemetry layouts
+│   ├── terminal.css     # Terminal overlay structure and interactive inputs
+│   └── showcase.css     # Interactive show-page grids and split-panes
+├── js/
+│   ├── main.js          # Core entry orchestrator
+│   ├── content.js       # Local database of projects, skills, and contact metadata
+│   ├── terminal.js      # Terminal REPL core logic and commands registry
+│   └── github.js        # GitHub API fetch, SVG render, and caching logic
+├── showcase/
+│   ├── hides.html       # hides.app interface
+│   ├── store-parts.html # Store Parts inventory dashboard
+│   └── autogit.html     # AutoGit CLI mockup page
+├── DEPLOY.md            # Cloudflare Pages / Vercel deployment checklist
+├── DESIGN.md            # Styling guidelines and custom utility reference
+├── index.html           # Homepage entry point
+└── vardh_resume.pdf     # Personal resume document
+```
 
-### How It Works
+---
 
-*   **Shannon Entropy:** The algorithm calculates the probability distribution of bytes within a dataset and applies the formula $H = -\sum p_i \log_2(p_i)$ to determine the information density, helping users verify if data is encrypted or merely structured.
-*   **Scan Heuristics:** The `scanner.js` module calculates the average interval between keystrokes. If the average falls below 100ms, the system triggers the `onScan` callback, assuming the input originated from a hardware scanner rather than a human typist.
-*   **AES-GCM Packing:** The `encodeShareToken` function packs the key length, raw AES key, 12-byte IV, and ciphertext into a single `Uint8Array` buffer before converting to Base64 for easy transmission.
+## Local Development
 
-### Contributing
+Since the site is built entirely using vanilla HTML/CSS/JavaScript with ES Modules, it does not require an intensive compilation or building pipeline.
 
-Contributions are welcome. Please ensure that any new utilities follow the existing ES module structure and maintain the focus on developer-centric tools. Ensure all cryptographic implementations utilize the `crypto.subtle` interface to maintain security standards.
+To start a local server, navigate to the project directory and serve the static files:
+
+### Python 3 Server
+```bash
+python -m http.server 3000
+```
+
+### Node.js (via npx)
+```bash
+npx serve -p 3000
+```
+
+Once running, navigate to `http://localhost:3000` in your web browser.
+
+---
+
+## Deployment
+
+The application is deployed to **Cloudflare Pages** and is bound to a Cloudflare Worker custom domain trigger for `vardh.me`, `www.vardh.me`, and `portfolio.vardh.me`.
+
+Refer to [DEPLOY.md](file:///c:/Users/Vardh/Desktop/portfolio/DEPLOY.md) for detailed instructions on configuring DNS parameters, setting CNAME proxy rules, and managing email forwarding for `connect@vardh.me`.
